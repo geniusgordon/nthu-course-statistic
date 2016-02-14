@@ -15,6 +15,9 @@ var api = require('./routes/api')(jar);
 
 var app = express();
 
+var base_url = 'http://ganxus.com/nthu-course-statistic/';
+app.locals.base_url = base_url;
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
