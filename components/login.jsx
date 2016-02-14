@@ -4,7 +4,7 @@ var ReactDOM = require('react-dom');
 var LoginForm = require('./login-form');
 
 ReactDOM.render(
-    <LoginForm />,
+    <LoginForm redirect="statistic" />,
     document.getElementById('login-form')
 );
 

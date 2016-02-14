@@ -4,6 +4,7 @@ module.exports = {
     cache: true,
     entry: {
         'login': './components/login.jsx',
+        'statistic': './components/statistic.jsx',
     },
     output: {
         path: path.join(__dirname, '/public/javascripts/build'),

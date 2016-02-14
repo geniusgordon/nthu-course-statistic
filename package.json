@@ -15,6 +15,7 @@
     "ejs": "~2.4.1",
     "express": "~4.13.1",
     "express-session": "latest",
+    "iconv": "^2.1.11",
     "kerberos": "latest",
     "mongoose": "latest",
     "morgan": "~1.6.1",

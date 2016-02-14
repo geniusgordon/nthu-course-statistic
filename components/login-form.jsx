@@ -13,7 +13,8 @@ var LoginForm = React.createClass({
             method: 'POST',
             data: data,
             success: function(data) {
-            },
+                window.location = this.props.redirect;
+            }.bind(this),
             error: function() {
                 this.setState({
                     err: 'login error'
