@@ -22,7 +22,9 @@
     "node-sass-middleware": "0.9.7",
     "passport": "latest",
     "passport-local": "latest",
-    "serve-favicon": "~2.3.0"
+    "serve-favicon": "~2.3.0",
+    "cheerio": "0.20.0",
+    "iconv": "2.1.11"
   },
   "devDependencies": {
     "babel-core": "^6.5.1",
