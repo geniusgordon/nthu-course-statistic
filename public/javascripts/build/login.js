@@ -68,13 +68,30 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
+	var $ = __webpack_require__(4);
 
-	var LoginTextField = __webpack_require__(4);
-	var LoginAuthImg = __webpack_require__(5);
+	var LoginTextField = __webpack_require__(5);
+	var LoginAuthImg = __webpack_require__(6);
 
 	var LoginForm = React.createClass({
 	    displayName: 'LoginForm',
 
+	    getInitialState() {
+	        return {
+	            pwdstr: null
+	        };
+	    },
+	    componentDidMount() {
+	        $.ajax({
+	            url: 'api/login',
+	            method: 'GET',
+	            success: function (data) {
+	                this.setState({
+	                    pwdstr: data.pwdstr
+	                });
+	            }.bind(this)
+	        });
+	    },
 	    render() {
 	        return React.createElement(
 	            'form',
@@ -95,7 +112,8 @@
 	                type: 'text',
 	                id: 'passwd2',
 	                name: 'passwd2',
-	                label: 'Captcha'
+	                label: 'Captcha',
+	                pwdstr: this.state.pwdstr
 	            }),
 	            React.createElement(
 	                'div',
@@ -118,6 +136,12 @@
 
 /***/ },
 /* 4 */
+/***/ function(module, exports) {
+
+	module.exports = jQuery;
+
+/***/ },
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -139,7 +163,7 @@
 	            ),
 	            React.createElement(
 	                "div",
-	                { className: "col-sm-10" },
+	                { className: "col-sm-8" },
 	                React.createElement("input", {
 	                    type: this.props.type,
 	                    className: "form-control",
@@ -155,44 +179,46 @@
 	module.exports = LoginField;
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 
 	var LoginAuthImg = React.createClass({
-	    displayName: "LoginAuthImg",
+	    displayName: 'LoginAuthImg',
 
 	    render() {
+	        var url = 'api/login/auth-img?pwdstr=' + this.props.pwdstr;
+	        var img = this.props.pwdstr ? React.createElement('img', { src: url }) : '';
 	        return React.createElement(
-	            "div",
-	            { className: "form-group" },
+	            'div',
+	            { className: 'form-group' },
 	            React.createElement(
-	                "label",
+	                'label',
 	                {
 	                    htmlFor: this.props.id,
-	                    className: "col-sm-2 control-label"
+	                    className: 'col-sm-2 control-label'
 	                },
 	                this.props.label
 	            ),
 	            React.createElement(
-	                "div",
-	                { className: "col-sm-10 row" },
+	                'div',
+	                { className: 'col-sm-8 row' },
 	                React.createElement(
-	                    "div",
-	                    { className: "col-sm-5" },
-	                    React.createElement("input", {
+	                    'div',
+	                    { className: 'col-sm-5' },
+	                    React.createElement('input', {
 	                        type: this.props.type,
-	                        className: "form-control",
+	                        className: 'form-control',
 	                        id: this.props.id,
 	                        name: this.props.name,
 	                        placeholder: this.props.placeholder
 	                    })
 	                ),
 	                React.createElement(
-	                    "div",
-	                    { className: "col-sm-5" },
-	                    React.createElement("img", { src: "" })
+	                    'div',
+	                    { className: 'col-sm-5' },
+	                    img
 	                )
 	            )
 	        );

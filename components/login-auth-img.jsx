@@ -2,13 +2,15 @@ var React = require('react');
 
 var LoginAuthImg = React.createClass({
 	render() {
+        var url = 'api/login/auth-img?pwdstr=' + this.props.pwdstr;
+        var img = this.props.pwdstr ? <img src={url} /> : '';
 		return (
             <div className="form-group">
                 <label 
                     htmlFor={this.props.id}
                     className="col-sm-2 control-label"
                     >{this.props.label}</label>
-                <div className="col-sm-10 row">
+                <div className="col-sm-8 row">
                     <div className="col-sm-5">
                         <input 
                             type={this.props.type}
@@ -19,7 +21,7 @@ var LoginAuthImg = React.createClass({
                         />
                     </div>
                     <div className="col-sm-5">
-                        <img src="" />
+                        {img}
                     </div>
                 </div>
             </div>

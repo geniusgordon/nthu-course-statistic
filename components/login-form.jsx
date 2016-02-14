@@ -1,9 +1,26 @@
 var React = require('react');
+var $ = require('jquery');
 
 var LoginTextField = require('./login-text-field');
 var LoginAuthImg = require('./login-auth-img');
 
 var LoginForm = React.createClass({
+    getInitialState() {
+        return {
+            pwdstr: null
+        }
+    },
+    componentDidMount() {
+        $.ajax({
+            url: 'api/login',
+            method: 'GET',
+            success: function(data) {
+                this.setState({
+                    pwdstr: data.pwdstr
+                });
+            }.bind(this)
+        })
+    },
     render() {
 		return (
             <form className="form-horizontal">
@@ -24,6 +41,7 @@ var LoginForm = React.createClass({
                     id="passwd2"
                     name="passwd2"
                     label="Captcha"
+                    pwdstr={this.state.pwdstr}
                 />
 
                 <div className="form-group">

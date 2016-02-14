@@ -1,7 +1,9 @@
 var api = require('express')();
-var login = require('./api/login');
 
-api.use('/login', login);
+module.exports = function(jar) {
+    var login = require('./api/login')(jar);
+    api.use('/login', login);
 
-module.exports = api;
+    return api;
+}
 

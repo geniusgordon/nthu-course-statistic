@@ -1,11 +1,37 @@
 var express = require('express');
+var cheerio = require('cheerio');
+var request = require('request');
+var fs = require('fs');
 var router = express.Router();
 
-router.get('/', function(req, res) {
-    res.json({
-        message: 'login'
-    });
-});
+var url = 'https://www.ccxp.nthu.edu.tw/ccxp/INQUIRE/';
 
-module.exports = router;
+module.exports = function(jar) {
+    router.get('/', function(req, res) {
+        request({
+            url: url,
+            jar: jar
+        }, function(err, r, body) {
+            var $ = cheerio.load(body);
+            var authImgSrc = $('img[src^=auth]').attr('src');
+            var query = authImgSrc.split('?').slice(-1)[0];
+            res.status(200).json({
+                pwdstr: query.split('=').slice(-1)[0]
+            });
+        });
+    });
+
+    router.get('/auth-img', function(req, res) {
+        var pwdstr = req.query.pwdstr || '';
+        request({
+            url: url + 'auth_img.php?' + pwdstr,
+            jar: jar,
+            qs: {
+                pwdstr: pwdstr
+            }
+        }).pipe(res);
+    });
+
+    return router;
+}
 
