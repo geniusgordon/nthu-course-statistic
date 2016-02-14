@@ -23,7 +23,10 @@ var DepartmentSelect = React.createClass({
             return <option key={d.code} value={d.code}>{d.name}</option>
         });
         return (
-            <select className="form-control" onChange={this.onChange}>{options}</select>
+            <select className="form-control" onChange={this.onChange}>
+                <option value="">--請選擇--</option>
+                {options}
+            </select>
         );
     }
 });

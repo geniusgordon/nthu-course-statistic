@@ -9,17 +9,12 @@ var url = 'https://www.ccxp.nthu.edu.tw/ccxp/INQUIRE/';
 var statistic_url = 'https://www.ccxp.nthu.edu.tw/ccxp/COURSE/JH/7/7.2/7.2.7/JH727002.php';
 
 module.exports = function(jar) {
-    router.get('/', function(req, res) {
-    });
-
     router.get('/:code', function(req, res) {
         var code = req.params.code;
         getStatisticHtml(code, jar, function(err, html) {
             if (err)
                 return res.status(401).json(err);
-            res.status(200).json({
-                statistic: parseStatisticHtml(html)
-            });
+            res.status(200).json(parseStatisticHtml(html));
         });
     });
 
@@ -49,11 +44,14 @@ function getStatisticHtml(code, jar, done) {
 
 function parseStatisticHtml(html) {
     var $ = cheerio.load(html);
-    return $('tr').get().map(function (tr) {
+    var row = $('tr').get().map(function (tr) {
         return $(tr).find('td').get().map(function(td) {
             return $(td).text();
         });
-    }).slice(3);
+    });
+    return {
+        header: row[2],
+        statistic: row.slice(3)
+    };
 }
-
 

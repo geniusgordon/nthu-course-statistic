@@ -1,0 +1,9 @@
+{
+	"version": 3,
+	"file": "statistic.css",
+	"sources": [
+		"statistic.sass"
+	],
+	"mappings": "AAAA,EAAE,CAAC;EACD,MAAM,EAAE,OAAQ,GAAG;;AAErB,0BAA0B,EAAE,uBAAuB,CAAC;EAClD,SAAS,EAAE,IAAK,GAAG;;AAErB,SAAS,CAAC;EACR,qBAAqB,EAAE,IAAK;EAC5B,mBAAmB,EAAE,IAAK;EAC1B,kBAAkB,EAAE,IAAK;EACzB,gBAAgB,EAAE,IAAK;EACvB,eAAe,EAAE,IAAK;EACtB,WAAW,EAAE,IAAK,GAAG",
+	"names": []
+}

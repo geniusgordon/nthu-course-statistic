@@ -1,0 +1,15 @@
+th {
+  cursor: pointer; }
+
+.glyphicon-triangle-bottom, .glyphicon-triangle-top {
+  font-size: 10px; }
+
+.noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none; }
+
+/*# sourceMappingURL=statistic.css.map */
