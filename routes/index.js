@@ -12,5 +12,9 @@ router.get('/login', function(req, res) {
     res.render('login');
 });
 
+router.get('/statistic', function(req, res) {
+    res.render('statistic');
+});
+
 module.exports = router;
 

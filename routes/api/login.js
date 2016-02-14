@@ -33,16 +33,18 @@ module.exports = function(jar) {
             } else {
                 var query = body.split('?').slice(-1)[0];
                 var acixstore = query.split('&')[0];
+                acixstore = acixstore.split('=').slice(-1)[0];
                 request({
                     url: url + 'select_entry.php',
                     jar: jar,
                     qs: {
-                        ACIXSTORE: acixstore.split('=').slice(-1)[0]
+                        ACIXSTORE: acixstore
                     }
                 }, function(err, r, body) {
+                    jar.acixstore = acixstore;
                     res.status(200).json({
                         login: true,
-                        acixstore: acixstore.split('=').slice(-1)[0]
+                        acixstore: acixstore
                     });
                 });
             }
