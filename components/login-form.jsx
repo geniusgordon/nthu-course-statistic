@@ -5,9 +5,26 @@ var LoginTextField = require('./login-text-field');
 var LoginAuthImg = require('./login-auth-img');
 
 var LoginForm = React.createClass({
+    submit(e) {
+        e.preventDefault();
+        var data = $('form').serialize() + '&fnstr=' + this.state.pwdstr;
+        $.ajax({
+            url: 'api/login',
+            method: 'POST',
+            data: data,
+            success: function(data) {
+            },
+            error: function() {
+                this.setState({
+                    err: 'login error'
+                });
+            }.bind(this)
+        })
+    },
     getInitialState() {
         return {
-            pwdstr: null
+            pwdstr: null,
+            err: ''
         }
     },
     componentDidMount() {
@@ -23,7 +40,7 @@ var LoginForm = React.createClass({
     },
     render() {
 		return (
-            <form className="form-horizontal">
+            <form className="form-horizontal" onSubmit={this.submit}>
                 <LoginTextField
                     type="text"
                     id="account"
@@ -43,10 +60,12 @@ var LoginForm = React.createClass({
                     label="Captcha"
                     pwdstr={this.state.pwdstr}
                 />
-
                 <div className="form-group">
-                    <div className="col-sm-offset-2 col-sm-10">
+                    <div className="col-sm-offset-2 col-sm-2">
                         <button type="submit" className="btn btn-default">Sign in</button>
+                    </div>
+                    <div className="col-sm-8">
+                        <p>{this.state.err}</p>
                     </div>
                 </div>
             </form>

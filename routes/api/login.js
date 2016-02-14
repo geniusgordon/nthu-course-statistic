@@ -21,6 +21,27 @@ module.exports = function(jar) {
         });
     });
 
+    router.post('/', function(req, res) {
+        request.post({
+            url: url + 'pre_select_entry.php',
+            jar: jar,
+            form: req.body
+        }, function(err, r, body) {
+            if (body.indexOf('Error') != -1) {
+                res.status(401).json({
+                    login: false
+                });
+            } else {
+                var query = body.split('?').slice(-1)[0];
+                var acixstore = query.split('&')[0];
+                res.status(200).json({
+                    login: true,
+                    acixstore: acixstore.split('=').slice(-1)[0]
+                });
+            }
+        });
+    });
+
     router.get('/auth-img', function(req, res) {
         var pwdstr = req.query.pwdstr || '';
         request({
