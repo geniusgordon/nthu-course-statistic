@@ -7,6 +7,9 @@ var bodyParser = require('body-parser');
 var request = require('request');
 var jar = request.jar();
 
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/nthu-ais');
+
 var routes = require('./routes/index');
 var api = require('./routes/api')(jar);
 
