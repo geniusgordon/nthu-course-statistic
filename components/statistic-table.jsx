@@ -24,10 +24,12 @@ var StatisticTable = React.createClass({
     },
     filterRow(arr) {
         return arr.filter((a) => {
-            if (!this.state.filter) return true;
-            var which = this.state.filter.which;
-            var text = this.state.filter.text;
-            return a[which].indexOf(text) != -1;
+            var f = true;
+            this.state.filter.forEach((text, i) => {
+                if (a[i].indexOf(text) == -1)
+                    f = false;
+            });
+            return f;
         });
     },
     getStatistic(code) {
@@ -36,7 +38,7 @@ var StatisticTable = React.createClass({
             statistic: [],
             message: 'Loading...',
             sort: null,
-            filter: null
+            filter: []
         });
         this._xhr = $.ajax({
             url: 'api/statistic/' + code,
@@ -61,7 +63,9 @@ var StatisticTable = React.createClass({
         return {
             header: [],
             statistic: [],
-            message: 'Loading...'
+            message: 'Loading...',
+            sort: null,
+            filter: []
         };
     },
     componentDidMount() {
@@ -85,10 +89,8 @@ var StatisticTable = React.createClass({
         this.setState({sort: s});
     },
     onHeaderInputChange(ind, text) {
-        var filter = {
-            which: ind,
-            text: text
-        };
+        var filter = this.state.filter;
+        filter[ind] = text;
         this.setState({filter: filter});
     },
     render() {
