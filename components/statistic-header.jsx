@@ -3,8 +3,11 @@ var ReactDOM = require('react-dom');
 var $ = require('jquery');
 
 var StatisticHeader = React.createClass({
-    onHeaderClick(ind, e) {
+    onHeaderClick(ind) {
         this.props.onHeaderClick(ind);
+    },
+    onHeaderInputChange(ind, e) {
+        this.props.onHeaderInputChange(ind, e.target.value);
     },
     render() {
         var header = this.props.header.map((h, i) => {
@@ -15,11 +18,17 @@ var StatisticHeader = React.createClass({
                 arrow = <span className={className} aria-hidden="true" />;
             }
             return (
-                <th 
-                    key={i}
-                    className="noselect"
-                    onClick={this.onHeaderClick.bind(this, i)}
-                >{removeEnglish(h)}{arrow}</th>
+                <th key={i} className="noselect" >
+                    <div onClick={this.onHeaderClick.bind(this, i)}>
+                        {removeEnglish(h)}{arrow}
+                    </div>
+                    <div className="form-group">
+                        <input
+                            className="form-control"
+                            onChange={this.onHeaderInputChange.bind(this, i)}
+                        />
+                        </div>
+                </th>
             );
         });
         return <thead><tr>{header}</tr></thead>

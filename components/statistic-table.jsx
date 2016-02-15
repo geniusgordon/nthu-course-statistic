@@ -5,7 +5,7 @@ var $ = require('jquery');
 var StatisticHeader = require('./statistic-header');
 
 var StatisticTable = React.createClass({
-    sortColumn(arr) {
+    sortRow(arr) {
         var which = this.state.sort.which;
         var order = this.state.sort.order;
         arr.sort((a, b) => {
@@ -22,12 +22,21 @@ var StatisticTable = React.createClass({
             return 0;
         });
     },
+    filterRow(arr) {
+        return arr.filter((a) => {
+            if (!this.state.filter) return true;
+            var which = this.state.filter.which;
+            var text = this.state.filter.text;
+            return a[which].indexOf(text) != -1;
+        });
+    },
     getStatistic(code) {
         this.setState({
             header: [],
             statistic: [],
             message: 'Loading...',
-            sort: null
+            sort: null,
+            filter: null
         });
         this._xhr = $.ajax({
             url: 'api/statistic/' + code,
@@ -67,7 +76,7 @@ var StatisticTable = React.createClass({
         if (this._xhr)
             this._xhr.abort();
     },
-    onHeaderClick(ind, e) {
+    onHeaderClick(ind) {
         var s = {which: ind};
         if (this.state.sort && this.state.sort.which == ind)
             s.order = this.state.sort.order * -1;
@@ -75,10 +84,20 @@ var StatisticTable = React.createClass({
             s.order = 1;
         this.setState({sort: s});
     },
+    onHeaderInputChange(ind, text) {
+        var filter = {
+            which: ind,
+            text: text
+        };
+        this.setState({filter: filter});
+    },
     render() {
         var statistic = this.state.statistic;
         if (this.state.sort) {
-            this.sortColumn(statistic);
+            this.sortRow(statistic);
+        }
+        if (this.state.filter) {
+            statistic = this.filterRow(statistic);
         }
         var row = statistic.map((s) => {
             var col = s.map((c, i) => {
@@ -94,6 +113,7 @@ var StatisticTable = React.createClass({
                         sort={this.state.sort}
                         header={this.state.header}
                         onHeaderClick={this.onHeaderClick}
+                        onHeaderInputChange={this.onHeaderInputChange}
                     />
                     <tbody>{row}</tbody>
                 </table>
