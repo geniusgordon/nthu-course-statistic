@@ -2,6 +2,8 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var $ = require('jquery');
 
+var StatisticHeader = require('./statistic-header');
+
 var StatisticTable = React.createClass({
     sortColumn(arr) {
         var which = this.state.sort.which;
@@ -74,21 +76,6 @@ var StatisticTable = React.createClass({
         this.setState({sort: s});
     },
     render() {
-        var header = this.state.header.map((h, i) => {
-            var arrow = '';
-            if (this.state.sort && this.state.sort.which == i) {
-                var className = this.state.sort.order == 1 ? 
-                    'glyphicon glyphicon-triangle-bottom' : 'glyphicon glyphicon-triangle-top'
-                arrow = <span className={className} aria-hidden="true" />;
-            }
-            return (
-                <th 
-                    key={i}
-                    className="noselect"
-                    onClick={this.onHeaderClick.bind(this, i)}
-                >{removeEnglish(h)}{arrow}</th>
-            );
-        });
         var statistic = this.state.statistic;
         if (this.state.sort) {
             this.sortColumn(statistic);
@@ -103,7 +90,11 @@ var StatisticTable = React.createClass({
             <div>
                 <p>{this.state.message}</p>
                 <table className="table table-hover">
-                    <thead><tr>{header}</tr></thead>
+                    <StatisticHeader 
+                        sort={this.state.sort}
+                        header={this.state.header}
+                        onHeaderClick={this.onHeaderClick}
+                    />
                     <tbody>{row}</tbody>
                 </table>
             </div>
